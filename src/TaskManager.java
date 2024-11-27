@@ -8,22 +8,25 @@ public class TaskManager {
     int nextId = 1;
 
     public void add(Task task) {
-        task.id = nextId++;
-        tasks.put(task.id, task);
+        task.setId(nextId++);
+        int id = task.getId();
+        tasks.put(id, task);
     }
 
     public void add(Epic epic) {
-        epic.id = nextId++;
-        epics.put(epic.id, epic);
-        epic.status = Status.NEW;
+        epic.setId(nextId++);
+        int id = epic.getId();
+        epics.put(id, epic);
+        epic.setStatus(Status.NEW);
     }
 
     public void add(Subtask subtask, int epicId) {
-        subtask.id = nextId++;
-        subtasks.put(subtask.id, subtask);
-        subtask.epicId = epicId;
+        subtask.setId(nextId++);
+        int id = subtask.getId();
+        subtasks.put(id, subtask);
+        subtask.setEpicId(epicId);
         Epic epic = epics.get(epicId);
-        epic.addSubtaskIds(subtask.id);
+        epic.addSubtaskIds(id);
         setEpicStatus(epic);
     }
 
@@ -90,7 +93,8 @@ public class TaskManager {
 
     public void subtaskRemove(int id) {
         Subtask aSubtask = subtasks.get(id);
-        Epic anEpic = epics.get(aSubtask.epicId);
+        int epicId = aSubtask.getEpicId();
+        Epic anEpic = epics.get(epicId);
         anEpic.revomeSubtask(id);
         subtasks.remove(id);
         setEpicStatus(anEpic);
@@ -121,57 +125,71 @@ public class TaskManager {
     }
 
     public void update(Task task) {
+        int id = 0;
         for (Task aTask : tasks.values()) {
-            if (task.name.equals(aTask.name)) {
-                task.id = aTask.id;
+            String name = task.getName();
+            String aName = aTask.getName();
+            if (name.equals(aName)) {
+                id = aTask.getId();
+                task.setId(id);
             }
         }
-        tasks.put(task.id, task);
+        tasks.put(id, task);
     }
 
     public void update(Epic epic) {
+        int id = 0;
         for (Epic anEpic : epics.values()) {
-            if (epic.name.equals(anEpic.name)) {
-                epic.id = anEpic.id;
-                epic.status = anEpic.status;
+            String name = epic.getName();
+            String aName = anEpic.getName();
+            if (name.equals(aName)) {
+                id = anEpic.getId();
+                epic.setId(id);
+                epic.setStatus(anEpic.getStatus());
                 epic.subtasksIds = anEpic.subtasksIds;
             }
         }
-        epics.put(epic.id, epic);
+        epics.put(id, epic);
     }
     public void update(Subtask subtask) {
+        int id = 0;
         for (Subtask aSubtask : subtasks.values()) {
-            if (subtask.name.equals(aSubtask.name)) {
-                subtask.id = aSubtask.id;
-                subtask.epicId = aSubtask.epicId;
+            String name = subtask.getName();
+            String aName = aSubtask.getName();
+            if (name.equals(aName)) {
+                id = aSubtask.getId();
+                subtask.setId(id);
+                subtask.setEpicId(aSubtask.getEpicId());
             }
         }
-        subtasks.put(subtask.id, subtask);
-        Epic epic = epics.get(subtask.epicId);
+        subtasks.put(id, subtask);
+        int epicId = subtask.getEpicId();
+        Epic epic = epics.get(epicId);
         setEpicStatus(epic);
     }
 
     public void setEpicStatus(Epic epic) {
         ArrayList<Integer> checkForProgress = epic.subtasksIds;
         if (checkForProgress.isEmpty()) {
-            epic.status = Status.NEW;
+            epic.setStatus(Status.NEW);
         } else {
             ArrayList<Status> inProgress = new ArrayList<>();
             ArrayList<Status> done = new ArrayList<>();
             for (Integer subtaskId : checkForProgress) {
                 Subtask aSubtask = subtasks.get(subtaskId);
-                if (aSubtask.status.equals(Status.IN_PROGRESS)) {
-                    inProgress.add(aSubtask.status);
-                } else if (aSubtask.status.equals(Status.DONE)) {
+                Status status = aSubtask.getStatus();
+                if (status.equals(Status.IN_PROGRESS)) {
+                    inProgress.add(status);
+                } else if (status.equals(Status.DONE)) {
                     done.add(Status.DONE);
                 }
             }
             if (inProgress.isEmpty() && done.isEmpty()) {
-                epic.status = Status.NEW;
+                epic.setStatus(Status.NEW);
             } else if (done.size() == checkForProgress.size()) {
-                epic.status = Status.DONE;
+                epic.setStatus(Status.DONE);
             } else {
-                epic.status = Status.IN_PROGRESS;
+                epic.setStatus(Status.IN_PROGRESS);
             }
         }
     }
