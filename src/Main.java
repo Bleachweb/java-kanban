@@ -42,7 +42,8 @@ public class Main {
 
         System.out.println();
         System.out.println("Обновление");
-        taskManager.update(new Task("уборка", "помыть полы", Status.IN_PROGRESS));
+        Task updatedTask = new Task("уборка", "помыть полы", Status.IN_PROGRESS, 2);
+        taskManager.update(updatedTask);
         System.out.println(taskManager.printTasks());
 
         Epic updatedEpic = new Epic("купить квартиру", "когда заработаешь ОЧЕНЬ много денег", epic2.getId());
