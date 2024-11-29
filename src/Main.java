@@ -32,9 +32,9 @@ public class Main {
 
         System.out.println();
         System.out.println("Вывод всех задач/подзадач/эпиков");
-        System.out.println(taskManager.printTasks());
-        System.out.println(taskManager.printSubtasks());
-        System.out.println(taskManager.printEpics());
+        System.out.println(taskManager.getTasks());
+        System.out.println(taskManager.getSubtasks());
+        System.out.println(taskManager.getEpics());
 
         System.out.println();
         System.out.println("Вывод подзадач определенного эпика");
@@ -44,35 +44,35 @@ public class Main {
         System.out.println("Обновление");
         Task updatedTask = new Task("уборка", "помыть полы", Status.IN_PROGRESS, 2);
         taskManager.update(updatedTask);
-        System.out.println(taskManager.printTasks());
+        System.out.println(taskManager.getTasks());
 
         Epic updatedEpic = new Epic("купить квартиру", "когда заработаешь ОЧЕНЬ много денег", epic2.getId());
         taskManager.update(updatedEpic);
-        System.out.println(taskManager.printEpics());
+        System.out.println(taskManager.getEpics());
 
         Subtask updatedSubtask = new Subtask("выбрать квартиру", "прошерстить авито", Status.DONE, 6, 7);
         taskManager.update(updatedSubtask);
-        System.out.println(taskManager.printSubtasks());
-        System.out.println(taskManager.printEpics());
+        System.out.println(taskManager.getSubtasks());
+        System.out.println(taskManager.getEpics());
 
         System.out.println();
         System.out.println("Удаление подзадачи");
         System.out.println("до");
-        System.out.println(taskManager.printEpics());
-        System.out.println(taskManager.printSubtasks());
+        System.out.println(taskManager.getEpics());
+        System.out.println(taskManager.getSubtasks());
         taskManager.subtaskRemove(4);
         System.out.println("после");
-        System.out.println(taskManager.printSubtasks());
-        System.out.println(taskManager.printEpics());
+        System.out.println(taskManager.getSubtasks());
+        System.out.println(taskManager.getEpics());
 
         System.out.println();
         System.out.println("Удаление эпика");
         System.out.println("до");
-        System.out.println(taskManager.printEpics());
-        System.out.println(taskManager.printSubtasks());
+        System.out.println(taskManager.getEpics());
+        System.out.println(taskManager.getSubtasks());
         taskManager.epicRemove(3);
         System.out.println("после");
-        System.out.println(taskManager.printEpics());
-        System.out.println(taskManager.printSubtasks());
+        System.out.println(taskManager.getEpics());
+        System.out.println(taskManager.getSubtasks());
     }
 }
