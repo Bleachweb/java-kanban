@@ -1,4 +1,5 @@
 import TaskManager.TaskManager;
+import TaskManager.Managers;
 import TaskManager.epic.Epic;
 import TaskManager.subtask.Subtask;
 import TaskManager.task.Task;
@@ -10,7 +11,8 @@ public class Main {
 
         System.out.println("Поехали!");
 
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
+
         Task task1 = new Task("посуда", "помыть тарелки", Status.NEW);
         taskManager.add (task1);
         Task task2 = new Task("уборка", "помыть полы", Status.NEW);
@@ -74,5 +76,15 @@ public class Main {
         System.out.println("после");
         System.out.println(taskManager.getEpics());
         System.out.println(taskManager.getSubtasks());
+
+        System.out.println();
+        System.out.println("История до");
+        System.out.println(taskManager.getHistory());
+        System.out.println(taskManager.taskSearch(1));
+        System.out.println(taskManager.subtaskSearch(7));
+        System.out.println(taskManager.subtaskSearch(7));
+        System.out.println(taskManager.epicSearch(6));
+        System.out.println("История после");
+        System.out.println(taskManager.getHistory());
     }
 }
