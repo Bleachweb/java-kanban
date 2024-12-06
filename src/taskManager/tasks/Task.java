@@ -1,5 +1,5 @@
-package TaskManager.task;
-import TaskManager.Status;
+package taskManager.tasks;
+import taskManager.Status;
 import java.util.Objects;
 
 public class Task {

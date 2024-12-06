@@ -1,8 +1,8 @@
-package TaskManager;
+package taskManager;
 
-import TaskManager.epic.Epic;
-import TaskManager.subtask.Subtask;
-import TaskManager.task.Task;
+import taskManager.tasks.Epic;
+import taskManager.tasks.Subtask;
+import taskManager.tasks.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +27,9 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldAddAndGetNewTasks() {
         taskManager.add(task1);
+
         Task task = taskManager.taskSearch(task1.getId());
+
         assertNotNull(task, "Задача не найдена.");
         assertEquals(task1, task, "Задачи не совпадают.");
 
@@ -41,7 +43,9 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldAddAndGetNewEpics() {
         taskManager.add(epic1);
+
         Epic epic = taskManager.epicSearch(epic1.getId());
+
         assertNotNull(epic, "Задача не найдена.");
         assertEquals(epic1, epic, "Задачи не совпадают.");
 
@@ -57,7 +61,9 @@ class InMemoryTaskManagerTest {
         taskManager.add(epic1);
         Subtask subtask1 = new Subtask("практикум", "пройти обучение", Status.NEW,1);
         taskManager.add(subtask1);
+
         Subtask subtask = taskManager.subtaskSearch(subtask1.getId());
+
         assertNotNull(subtask1, "Задача не найдена.");
         assertEquals(subtask1, subtask, "Задачи не совпадают.");
 
@@ -72,14 +78,18 @@ class InMemoryTaskManagerTest {
     void shouldNotHaveConflicts () {
         taskManager.add(task1);
         Task task2 =  new Task("посуда", "помыть тарелки", Status.NEW,1);
+
         taskManager.update(task2);
+
         assertEquals(task1,taskManager.taskSearch(task2.getId()));
     }
 
     @Test
     void shouldCheckTasksStability () {
         taskManager.add(task1);
+
         Task task2 = taskManager.taskSearch(task1.getId());
+
         assertEquals(task1.getName(),task2.getName());
         assertEquals(task1.getDescription(),task2.getDescription());
         assertEquals(task1.getStatus(),task2.getStatus());
@@ -90,7 +100,9 @@ class InMemoryTaskManagerTest {
         taskManager.add(task1);
         HistoryManager historyManager = Managers.getDefaultHistory();
         historyManager.addTask(task1);
+
         Task task = taskManager.taskSearch(task1.getId());
+
         assertEquals(task1,task);
     }
 

@@ -1,4 +1,4 @@
-package TaskManager;
+package taskManager;
 
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +10,7 @@ class ManagersTest {
     void getDefault() {
         TaskManager manager1 = Managers.getDefault();
         TaskManager manager2 = Managers.getDefault();
+
         assertNotNull(manager1);
         assertNotNull(manager2);
         assertNotEquals(manager1, manager2);
@@ -19,6 +20,7 @@ class ManagersTest {
     void getDefaultHistory() {
         InMemoryHistoryManager manager1 = Managers.getDefaultHistory();
         InMemoryHistoryManager manager2 = Managers.getDefaultHistory();
+
         assertNotNull(manager1);
         assertNotNull(manager2);
         assertNotEquals(manager1, manager2);

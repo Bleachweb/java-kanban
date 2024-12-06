@@ -1,4 +1,4 @@
-package TaskManager.epic;
+package taskManager.tasks;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,9 @@ class EpicTest {
     @Test
     void shouldNotAddEpicAsSubtaskToItself() {
         int subtasksSize = epic1.getSubtasksIds().size();
+
         epic1.addSubtaskId(3);
+
         assertEquals(subtasksSize, epic1.getSubtasksIds().size());
     }
 }

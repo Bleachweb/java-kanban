@@ -1,9 +1,9 @@
-import TaskManager.TaskManager;
-import TaskManager.Managers;
-import TaskManager.epic.Epic;
-import TaskManager.subtask.Subtask;
-import TaskManager.task.Task;
-import TaskManager.Status;
+import taskManager.TaskManager;
+import taskManager.Managers;
+import taskManager.tasks.Epic;
+import taskManager.tasks.Subtask;
+import taskManager.tasks.Task;
+import taskManager.Status;
 
 public class Main {
 
