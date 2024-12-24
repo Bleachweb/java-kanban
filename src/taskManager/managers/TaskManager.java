@@ -1,4 +1,4 @@
-package taskManager;
+package taskManager.managers;
 
 import taskManager.tasks.Epic;
 import taskManager.tasks.Subtask;
