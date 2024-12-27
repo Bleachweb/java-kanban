@@ -1,9 +1,9 @@
-package taskManager.tasks;
+package TaskManager.tasks;
 
-import taskManager.Status;
+import TaskManager.Status;
 import org.junit.jupiter.api.Test;
-import taskManager.managers.Managers;
-import taskManager.managers.TaskManager;
+import TaskManager.managers.Managers;
+import TaskManager.managers.TaskManager;
 
 import java.util.List;
 

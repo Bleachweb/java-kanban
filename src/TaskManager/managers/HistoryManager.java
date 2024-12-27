@@ -1,5 +1,5 @@
-package taskManager.managers;
-import taskManager.tasks.Task;
+package TaskManager.managers;
+import TaskManager.tasks.Task;
 
 import java.util.HashMap;
 import java.util.List;

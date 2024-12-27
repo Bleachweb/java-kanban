@@ -1,6 +1,6 @@
-package taskManager.managers;
+package TaskManager.managers;
 
-import taskManager.tasks.Task;
+import TaskManager.tasks.Task;
 
 public class Node {
     public Task task;
