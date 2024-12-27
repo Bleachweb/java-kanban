@@ -1,4 +1,4 @@
-package TaskManager;
+package statuses;
 public enum Status {
     NEW,
     IN_PROGRESS,
