@@ -1,5 +1,8 @@
 package taskManager;
 
+import taskManager.managers.HistoryManager;
+import taskManager.managers.Managers;
+import taskManager.managers.TaskManager;
 import taskManager.tasks.Epic;
 import taskManager.tasks.Subtask;
 import taskManager.tasks.Task;

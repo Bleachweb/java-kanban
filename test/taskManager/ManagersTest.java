@@ -1,6 +1,9 @@
 package taskManager;
 
 import org.junit.jupiter.api.Test;
+import taskManager.managers.InMemoryHistoryManager;
+import taskManager.managers.Managers;
+import taskManager.managers.TaskManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
