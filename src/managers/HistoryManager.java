@@ -13,5 +13,5 @@ public interface HistoryManager {
 
     HashMap<Integer, Node> getTaskMap();
 
-    void updateTask (Task task);
+    void updateTask(Task task);
 }

@@ -21,7 +21,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
 
-    public void updateTask (Task updatedTask) {
+    public void updateTask(Task updatedTask) {
         int id = updatedTask.getId();
         if (taskMap.containsKey(id)) {
             Node nodeToUpdate = taskMap.get(id);
