@@ -1,8 +1,10 @@
 package managers;
+
 import statuses.Status;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,18 +48,18 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List <Task> getTasks() {
+    public List<Task> getTasks() {
         return new ArrayList<>(tasks.values());
     }
 
     @Override
-    public List <Subtask> getSubtasks() {
+    public List<Subtask> getSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
 
     @Override
-    public List <Epic> getEpics() {
-       return new ArrayList<>(epics.values());
+    public List<Epic> getEpics() {
+        return new ArrayList<>(epics.values());
     }
 
     @Override
@@ -70,7 +72,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void clearSubtasks() {
-        for (Subtask subtask : subtasks.values()){
+        for (Subtask subtask : subtasks.values()) {
             historyManager.remove(subtask.getId());
         }
         subtasks.clear();
@@ -83,7 +85,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void clearEpic() {
-        for (Subtask subtask : subtasks.values()){
+        for (Subtask subtask : subtasks.values()) {
             historyManager.remove(subtask.getId());
         }
         for (Epic epic : epics.values()) {
