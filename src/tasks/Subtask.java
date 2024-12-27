@@ -1,9 +1,10 @@
 package tasks;
+
 import statuses.Status;
 
 public class Subtask extends Task {
 
-    private int  epicId;
+    private int epicId;
 
     public Subtask(String name, String description, Status status, int epicId, int id) {
         super(name, description, status, id);

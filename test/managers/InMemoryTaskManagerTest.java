@@ -60,7 +60,7 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldAddAndGetNewSubtasks() {
         taskManager.add(epic1);
-        Subtask subtask1 = new Subtask("практикум", "пройти обучение", Status.NEW,1);
+        Subtask subtask1 = new Subtask("практикум", "пройти обучение", Status.NEW, 1);
         taskManager.add(subtask1);
 
         Subtask subtask = taskManager.subtaskSearch(subtask1.getId());
@@ -76,35 +76,35 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldNotHaveConflicts () {
+    void shouldNotHaveConflicts() {
         taskManager.add(task1);
-        Task task2 =  new Task("посуда", "помыть тарелки", Status.NEW,1);
+        Task task2 = new Task("посуда", "помыть тарелки", Status.NEW, 1);
 
         taskManager.update(task2);
 
-        assertEquals(task1,taskManager.taskSearch(task2.getId()));
+        assertEquals(task1, taskManager.taskSearch(task2.getId()));
     }
 
     @Test
-    void shouldCheckTasksStability () {
+    void shouldCheckTasksStability() {
         taskManager.add(task1);
 
         Task task2 = taskManager.taskSearch(task1.getId());
 
-        assertEquals(task1.getName(),task2.getName());
-        assertEquals(task1.getDescription(),task2.getDescription());
-        assertEquals(task1.getStatus(),task2.getStatus());
+        assertEquals(task1.getName(), task2.getName());
+        assertEquals(task1.getDescription(), task2.getDescription());
+        assertEquals(task1.getStatus(), task2.getStatus());
     }
 
     @Test
-    void shouldCheckTasksStabilityWhileAddingToHistoryManager () {
+    void shouldCheckTasksStabilityWhileAddingToHistoryManager() {
         taskManager.add(task1);
         HistoryManager historyManager = Managers.getDefaultHistory();
         historyManager.addTask(task1);
 
         Task task = taskManager.taskSearch(task1.getId());
 
-        assertEquals(task1,task);
+        assertEquals(task1, task);
     }
 
 }

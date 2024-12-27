@@ -20,15 +20,15 @@ class HistoryManagerTest {
     public void beforeEach() {
         historyManager = Managers.getDefaultHistory();
         task1 = new Task("1", "Описание", 1);
-        task2 = new Task("1","Обновление", 1);
-        task3 = new Task("2","Проверка", 2);
+        task2 = new Task("1", "Обновление", 1);
+        task3 = new Task("2", "Проверка", 2);
     }
 
     @Test
     public void shouldAddAndGetHistory() {
-        Task task = new Task("посуда", "помыть тарелки", Status.NEW,1);
+        Task task = new Task("посуда", "помыть тарелки", Status.NEW, 1);
         Epic epic1 = new Epic("стать программистом", "чтобы зарабатывать много денег", 3);
-        Subtask subtask1 = new Subtask("практикум", "пройти обучение", Status.NEW,3,4);
+        Subtask subtask1 = new Subtask("практикум", "пройти обучение", Status.NEW, 3, 4);
 
         historyManager.addTask(task);
         historyManager.addTask(epic1);
@@ -83,7 +83,7 @@ class HistoryManagerTest {
 
         Node node = historyManager.getTaskMap().get(task1.getId());
         assertNotNull(node);
-        assertEquals(2,historyManager.getTaskMap().size());
+        assertEquals(2, historyManager.getTaskMap().size());
         assertEquals("1", node.task.getName());
     }
 
@@ -115,14 +115,14 @@ class HistoryManagerTest {
     @Test
     public void testRemoveHeadTask() {
         historyManager.addTask(task1);
-        historyManager.addTask(new Task("3","Описание", 3));
+        historyManager.addTask(new Task("3", "Описание", 3));
         historyManager.addTask(task3);
 
         historyManager.remove(1);
 
         assertNull(historyManager.getTaskMap().get(1), "Задача с id 1 должна быть удалена");
         assertNotNull(historyManager.getTaskMap().get(2), "Задача с id 2 должна остаться в taskMap");
-        assertEquals(2,historyManager.getTaskMap().size(), "Задачи id 2,3 должны остаться в taskMap");
+        assertEquals(2, historyManager.getTaskMap().size(), "Задачи id 2,3 должны остаться в taskMap");
     }
 
 }

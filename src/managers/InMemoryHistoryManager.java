@@ -1,10 +1,10 @@
 package managers;
+
 import tasks.Task;
 
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
-
 
 
     private HashMap<Integer, Node> taskMap; // HashMap для хранения ID задач и узлов
@@ -26,7 +26,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (taskMap.containsKey(id)) {
             Node nodeToUpdate = taskMap.get(id);
             nodeToUpdate.task = updatedTask;
-            taskMap.put(id,nodeToUpdate);
+            taskMap.put(id, nodeToUpdate);
         }
     }
 

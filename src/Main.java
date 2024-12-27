@@ -15,18 +15,18 @@ public class Main {
 
         //Создайте две задачи, эпик с тремя подзадачами и эпик без подзадач.
         Task task1 = new Task("посуда", "помыть тарелки", Status.NEW);
-        taskManager.add (task1);
+        taskManager.add(task1);
         Task task2 = new Task("уборка", "помыть полы", Status.NEW);
-        taskManager.add (task2);
+        taskManager.add(task2);
 
         Epic epic1 = new Epic("стать программистом", "чтобы зарабатывать много денег");
-        taskManager.add (epic1);
+        taskManager.add(epic1);
 
-        Subtask subtask1 = new Subtask("практикум", "пройти обучение", Status.IN_PROGRESS,3);
+        Subtask subtask1 = new Subtask("практикум", "пройти обучение", Status.IN_PROGRESS, 3);
         taskManager.add(subtask1);
-        Subtask subtask2 = new Subtask("собеседование", "пройти и его", Status.NEW,3);
-        taskManager.add (subtask2);
-        Subtask subtask3 = new Subtask("6 спринт", "успешно сдать", Status.IN_PROGRESS,3);
+        Subtask subtask2 = new Subtask("собеседование", "пройти и его", Status.NEW, 3);
+        taskManager.add(subtask2);
+        Subtask subtask3 = new Subtask("6 спринт", "успешно сдать", Status.IN_PROGRESS, 3);
         taskManager.add(subtask3);
 
         Epic epic2 = new Epic("купить квартиру", "когда заработаешь много денег");
