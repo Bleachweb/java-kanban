@@ -44,7 +44,6 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.get(epicId);
         epic.addSubtaskId(id);
         setEpicStatus(epic);
-        historyManager.updateTask(epic);
     }
 
     @Override
@@ -79,7 +78,6 @@ public class InMemoryTaskManager implements TaskManager {
         for (Epic epic : epics.values()) {
             epic.removeSubtasks();
             setEpicStatus(epic);
-            historyManager.updateTask(epic);
         }
     }
 
@@ -98,21 +96,21 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task taskSearch(int id) {
         Task task = tasks.get(id);
-        historyManager.addTask(task);
+        historyManager.add(task);
         return task;
     }
 
     @Override
     public Subtask subtaskSearch(int id) {
         Subtask subtask = subtasks.get(id);
-        historyManager.addTask(subtask);
+        historyManager.add(subtask);
         return subtask;
     }
 
     @Override
     public Epic epicSearch(int id) {
         Epic epic = epics.get(id);
-        historyManager.addTask(epic);
+        historyManager.add(epic);
         return epic;
     }
 
@@ -131,7 +129,6 @@ public class InMemoryTaskManager implements TaskManager {
         anEpic.removeSubtask(id);
         subtasks.remove(id);
         setEpicStatus(anEpic);
-        historyManager.updateTask(anEpic);
     }
 
     @Override
@@ -166,7 +163,6 @@ public class InMemoryTaskManager implements TaskManager {
         updatedTask.setDescription(task.getDescription());
         updatedTask.setStatus(task.getStatus());
         tasks.put(id, updatedTask);
-        historyManager.updateTask(updatedTask);
     }
 
     @Override
@@ -176,7 +172,6 @@ public class InMemoryTaskManager implements TaskManager {
         updatedEpic.setName(epic.getName());
         updatedEpic.setDescription(epic.getDescription());
         epics.put(id, updatedEpic);
-        historyManager.updateTask(updatedEpic);
     }
 
     @Override
@@ -190,8 +185,6 @@ public class InMemoryTaskManager implements TaskManager {
         int epicId = subtask.getEpicId();
         Epic epic = epics.get(epicId);
         setEpicStatus(epic);
-        historyManager.updateTask(updatedSubtask);
-        historyManager.updateTask(epic);
     }
 
     private void setEpicStatus(Epic epic) {

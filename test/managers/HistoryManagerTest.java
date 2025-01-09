@@ -30,9 +30,9 @@ class HistoryManagerTest {
         Epic epic1 = new Epic("стать программистом", "чтобы зарабатывать много денег", 3);
         Subtask subtask1 = new Subtask("практикум", "пройти обучение", Status.NEW, 3, 4);
 
-        historyManager.addTask(task);
-        historyManager.addTask(epic1);
-        historyManager.addTask(subtask1);
+        historyManager.add(task);
+        historyManager.add(epic1);
+        historyManager.add(subtask1);
 
         assertEquals(3, historyManager.getHistory().size());
         assertTrue(historyManager.getHistory().contains(task));
@@ -41,35 +41,21 @@ class HistoryManagerTest {
     }
 
 //    @Test
-//    void shouldRemoveFirstTaskWhenAddNewTaskAndListAreFull() {
-//        Task task11 = new Task("Задача 11", "проверка", Status.NEW);
-//        for (int i = 0; i < 10; i++) {
-//            historyManager.addTask(new Task("Задача " + i, "проверка", Status.NEW));
-//        }
+//    public void shouldCheckTaskUpdateById() {
+//        // Создаем и добавляем новую задачу
 //
-//        historyManager.addTask(task11);
+//        historyManager.add(task1);
 //
-//        assertEquals(10, historyManager.getHistory().size());
-//        assertEquals(task11, historyManager.getHistory().get(9));
+//        assertEquals("Описание", historyManager.getTask().get(1).task.getDescription());
 //
-//    } этот тест больше не нужен, тк у нас не ограничена история просмотров
-
-    @Test
-    public void shouldCheckTaskUpdateById() {
-        // Создаем и добавляем новую задачу
-
-        historyManager.addTask(task1);
-
-        assertEquals("Описание", historyManager.getTaskMap().get(1).task.getDescription());
-
-        historyManager.updateTask(task2);
-
-        assertEquals("Обновление", historyManager.getTaskMap().get(1).task.getDescription());
-
-        historyManager.updateTask(task3);
-
-        assertEquals("Обновление", historyManager.getTaskMap().get(1).task.getDescription());
-    }
+//        historyManager.updateTask(task2);
+//
+//        assertEquals("Обновление", historyManager.getTaskMap().get(1).task.getDescription());
+//
+//        historyManager.updateTask(task3);
+//
+//        assertEquals("Обновление", historyManager.getTaskMap().get(1).task.getDescription());
+//    }
 
     @Test
     void shouldCheckTaskAddAndDoubles() {
@@ -77,14 +63,17 @@ class HistoryManagerTest {
         Task task2 = new Task("2", "Описание2", 2);
         Task task3 = new Task("1", "Описание", 1);
 
-        historyManager.addTask(task1);
-        historyManager.addTask(task2);
-        historyManager.addTask(task3);
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
 
-        Node node = historyManager.getTaskMap().get(task1.getId());
-        assertNotNull(node);
-        assertEquals(2, historyManager.getTaskMap().size());
-        assertEquals("1", node.task.getName());
+        Task check1 = historyManager.getHistory().getFirst();
+        Task check2 = historyManager.getHistory().getLast();
+
+        assertNotNull(check1);
+        assertNotNull(check2);
+        assertEquals(2, historyManager.getHistory().size());
+        assertEquals("1", check2.getName());
     }
 
     @Test
@@ -94,35 +83,35 @@ class HistoryManagerTest {
 
     @Test
     public void testRemoveExistingTask() {
-        historyManager.addTask(task1);
-        historyManager.addTask(task3);
+        historyManager.add(task1);
+        historyManager.add(task3);
 
         historyManager.remove(1);
 
-        assertNull(historyManager.getTaskMap().get(1), "Задача с id 1 должна быть удалена");
-        assertNotNull(historyManager.getTaskMap().get(2), "Задача с id 2 должна остаться в taskMap");
+        assertFalse(historyManager.getHistory().contains(task1), "Задача с id 1 должна быть удалена");
+        assertTrue(historyManager.getHistory().contains(task3), "Задача с id 2 должна остаться в taskMap");
     }
 
     @Test
     public void testRemoveTaskThatDoesNotExist() {
-        historyManager.addTask(task1);
+        historyManager.add(task1);
 
-        historyManager.remove(2); // Задача с id = 2 не существует
+        historyManager.remove(2);
 
-        assertNotNull(historyManager.getTaskMap().get(1), "Задача с id 1 должна остаться в taskMap");
+        assertTrue(historyManager.getHistory().contains(task1), "Задача с id 1 должна остаться в taskMap");
     }
 
     @Test
     public void testRemoveHeadTask() {
-        historyManager.addTask(task1);
-        historyManager.addTask(new Task("3", "Описание", 3));
-        historyManager.addTask(task3);
+        historyManager.add(task1);
+        historyManager.add(new Task("3", "Описание", 3));
+        historyManager.add(task3);
 
         historyManager.remove(1);
 
-        assertNull(historyManager.getTaskMap().get(1), "Задача с id 1 должна быть удалена");
-        assertNotNull(historyManager.getTaskMap().get(2), "Задача с id 2 должна остаться в taskMap");
-        assertEquals(2, historyManager.getTaskMap().size(), "Задачи id 2,3 должны остаться в taskMap");
+        assertFalse(historyManager.getHistory().contains(task1), "Задача с id 1 должна быть удалена");
+        assertTrue(historyManager.getHistory().contains(task3), "Задача с id 2 должна остаться в taskMap");
+        assertEquals(2, historyManager.getHistory().size(), "Задачи id 2,3 должны остаться в taskMap");
     }
 
 }

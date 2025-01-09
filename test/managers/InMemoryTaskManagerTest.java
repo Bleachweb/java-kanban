@@ -100,7 +100,7 @@ class InMemoryTaskManagerTest {
     void shouldCheckTasksStabilityWhileAddingToHistoryManager() {
         taskManager.add(task1);
         HistoryManager historyManager = Managers.getDefaultHistory();
-        historyManager.addTask(task1);
+        historyManager.add(task1);
 
         Task task = taskManager.taskSearch(task1.getId());
 
