@@ -1,9 +1,11 @@
-package taskManager.tasks;
+package tasks;
 
-import taskManager.Status;
-import taskManager.TaskManager;
-import taskManager.Managers;
+import statuses.Status;
 import org.junit.jupiter.api.Test;
+import managers.Managers;
+import managers.TaskManager;
+import tasks.Epic;
+import tasks.Subtask;
 
 import java.util.List;
 
@@ -11,10 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SubtaskTest {
     TaskManager taskManager = Managers.getDefault();
+
     @Test
     void shouldReturnTrueIfIdsAreEqual() {
-        Subtask subtask1 = new Subtask("практикум", "пройти обучение", Status.NEW,3,4);
-        Subtask subtask2 = new Subtask("практикум", "пройти обучение", Status.NEW,3,4);
+        Subtask subtask1 = new Subtask("практикум", "пройти обучение", Status.NEW, 3, 4);
+        Subtask subtask2 = new Subtask("практикум", "пройти обучение", Status.NEW, 3, 4);
 
         assertEquals(subtask1, subtask2);
     }
@@ -26,7 +29,7 @@ class SubtaskTest {
 
         List<Subtask> check1 = taskManager.getSubtasks();
 
-        Subtask subtask1 = new Subtask("практикум", "пройти обучение", Status.NEW,2);
+        Subtask subtask1 = new Subtask("практикум", "пройти обучение", Status.NEW, 2);
         taskManager.add(subtask1);
 
         List<Subtask> check2 = taskManager.getSubtasks();
