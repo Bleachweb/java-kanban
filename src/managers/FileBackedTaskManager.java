@@ -19,49 +19,23 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.file = file;
     }
 
-    void save() {
+    private void save() {
 
         List<String> lines = new ArrayList<>();
         lines.add(HEADER_CSV_FILE); // Заголовок CSV
         for (Task task : getTasks()) {
-            lines.add(toString(task));
+            lines.add(task.toString());
         }
         for (Epic epic : getEpics()) {
-            lines.add(toString(epic));
+            lines.add(epic.toString());
         }
         for (Subtask subtask : getSubtasks()) {
-            lines.add(toString(subtask));
+            lines.add(subtask.toString());
         }
         try {
             Files.write(file.toPath(), lines, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка сохранения файла", e);
-        }
-    }
-
-    public String toString(Task task) {
-        if (task instanceof Epic) {
-            return String.format("%d,%s,%s,%s,%s,",
-                    task.getId(),
-                    TaskType.EPIC,
-                    task.getName(),
-                    task.getStatus(),
-                    task.getDescription());
-        } else if (task instanceof Subtask subtask) {
-            return String.format("%d,%s,%s,%s,%s,%d",
-                    subtask.getId(),
-                    TaskType.SUBTASK,
-                    subtask.getName(),
-                    subtask.getStatus(),
-                    subtask.getDescription(),
-                    subtask.getEpicId());
-        } else {
-            return String.format("%d,%s,%s,%s,%s,",
-                    task.getId(),
-                    TaskType.TASK,
-                    task.getName(),
-                    task.getStatus(),
-                    task.getDescription());
         }
     }
 
@@ -188,6 +162,24 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         save();
     }
 
+    @Override
+    public void clearTasks() {
+        super.clearTasks();
+        save();
+    }
+
+    @Override
+    public void clearSubtasks() {
+        super.clearSubtasks();
+        save();
+    }
+
+    @Override
+    public void clearEpic() {
+        super.clearEpic();
+        save();
+    }
+
 
     public static void main(String[] args) {
 
@@ -223,13 +215,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             System.out.println("Задачи после загрузки:");
             System.out.println(HEADER_CSV_FILE);
             for (Task task : loadedManager.getTasks()) {
-                System.out.println(loadedManager.toString(task));
+                System.out.println(task);
             }
             for (Epic epic : loadedManager.getEpics()) {
-                System.out.println(loadedManager.toString(epic));
+                System.out.println(epic);
             }
             for (Subtask subtask : loadedManager.getSubtasks()) {
-                System.out.println(loadedManager.toString(subtask));
+                System.out.println(subtask);
             }
 
         } catch (IOException e) {

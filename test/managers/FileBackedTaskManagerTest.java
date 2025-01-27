@@ -52,8 +52,6 @@ class FileBackedTaskManagerTest {
         manager.clearSubtasks();
         manager.clearEpic();
 
-        manager.save();
-
         FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
 
         assertTrue(loadedManager.getTasks().isEmpty(), "Список задач должен быть пустым");
@@ -63,8 +61,6 @@ class FileBackedTaskManagerTest {
 
     @Test
     void testSaveMultipleTasks() throws IOException {
-        manager.save();
-
         String content = Files.readString(tempFile.toPath(), StandardCharsets.UTF_8);
         assertFalse(content.isEmpty(), "Файл не должен быть пустым");
 
@@ -74,8 +70,6 @@ class FileBackedTaskManagerTest {
 
     @Test
     void testLoadMultipleTasks() throws IOException {
-        manager.save();
-
         FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
 
         assertEquals(2, loadedManager.getTasks().size(), "Должно быть 2 задачи");
