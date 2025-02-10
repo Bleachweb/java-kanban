@@ -14,7 +14,7 @@ import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileBackedTaskManagerTest {
+class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
     private File tempFile;
     private FileBackedTaskManager manager;
@@ -25,8 +25,18 @@ class FileBackedTaskManagerTest {
     private Subtask subtask1;
     private Subtask subtask2;
 
+    @Override
+    protected FileBackedTaskManager createTaskManager() {
+        try {
+            File tempFile = File.createTempFile("tasks", ".csv");
+            return new FileBackedTaskManager(tempFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @BeforeEach
-    void setUp() throws IOException {
+    void beforeEach() throws IOException {
         tempFile = File.createTempFile("test", ".csv");
         tempFile.deleteOnExit();
 
