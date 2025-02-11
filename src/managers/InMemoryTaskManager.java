@@ -25,14 +25,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     public boolean checkTime(Task task) {
         List<Task> tasks = List.copyOf(prioritizedTasks);
-        if (!tasks.isEmpty()) {
             for (Task taskSave : tasks) {
-                if (task.getStartTime().isBefore(taskSave.getEndTime()) && task.getEndTime().isAfter(taskSave.getStartTime())) {
-                    return false;
+                if (task.getId() != taskSave.getId()) {
+                    if (task.getStartTime().isBefore(taskSave.getEndTime()) && task.getEndTime().isAfter(taskSave.getStartTime())) {
+                        return true;
+                    }
                 }
             }
-        }
-        return true;
+        return false;
     }
 
     @Override
@@ -42,22 +42,17 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void add(Task task) {
-        task.setId(nextId++);
+
         try {
             if (task.getStartTime() != null) {
-
-                boolean taskHasIntersections = checkTime(task);
-                if (taskHasIntersections) {
+                if (timeValidation(task)) {
+                    task.setId(nextId++);
                     int id = task.getId();
                     tasks.put(id, task);
                     addNewPrioritizedTask(task);
-                } else {
-                    task.setId(0);
-                    nextId--;
-                    throw new ManagerValidateException(
-                            "Задача " + task.getName() + " пересекается с ранее добавленной");
                 }
             } else {
+                task.setId(nextId++);
                 int id = task.getId();
                 tasks.put(id, task);
             }
@@ -83,8 +78,7 @@ public class InMemoryTaskManager implements TaskManager {
         subtask.setId(nextId++);
         try {
             if (subtask.getStartTime() != null) {
-                boolean taskHasIntersections = checkTime(subtask);
-                if (taskHasIntersections) {
+                if (timeValidation(subtask)) {
                     int id = subtask.getId();
                     subtasks.put(id, subtask);
                     int epicId = subtask.getEpicId();
@@ -96,8 +90,6 @@ public class InMemoryTaskManager implements TaskManager {
                 } else {
                     subtask.setId(0);
                     nextId--;
-                    throw new ManagerValidateException(
-                            "Задача " + subtask.getName() + " пересекается с ранее добавленной");
                 }
             } else {
                 int id = subtask.getId();
@@ -230,10 +222,23 @@ public class InMemoryTaskManager implements TaskManager {
     public void update(Task task) {
         int id = task.getId();
         Task updatedTask = tasks.get(id);
-        updatedTask.setName(task.getName());
-        updatedTask.setDescription(task.getDescription());
-        updatedTask.setStatus(task.getStatus());
-        tasks.put(id, updatedTask);
+        try {
+            if (task.getStartTime() != null && !timeValidation(task)) {
+                return;
+            }
+            if (updatedTask.getStartTime() != null && updatedTask.getStartTime() != task.getStartTime()) {
+                prioritizedTasks.remove(updatedTask);
+            }
+            updatedTask.setName(task.getName());
+            updatedTask.setDescription(task.getDescription());
+            updatedTask.setStatus(task.getStatus());
+            tasks.put(id, updatedTask);
+            if (updatedTask.getStartTime() != null) {
+                prioritizedTasks.add(updatedTask);
+            }
+        } catch (ManagerValidateException e) {
+            System.out.println("Ошибка валидации: " + e.getMessage() + ". Изменения не внесены");
+        }
     }
 
     @Override
@@ -249,13 +254,40 @@ public class InMemoryTaskManager implements TaskManager {
     public void update(Subtask subtask) {
         int id = subtask.getId();
         Subtask updatedSubtask = subtasks.get(id);
-        updatedSubtask.setName(subtask.getName());
-        updatedSubtask.setDescription(subtask.getDescription());
-        updatedSubtask.setStatus(subtask.getStatus());
-        subtasks.put(id, updatedSubtask);
-        int epicId = subtask.getEpicId();
-        Epic epic = epics.get(epicId);
-        setEpicStatus(epic);
+        try {
+            if (subtask.getStartTime() != null && !timeValidation(subtask)) {
+                return;
+            }
+            if (updatedSubtask.getStartTime() != null && updatedSubtask.getStartTime() != subtask.getStartTime()) {
+                prioritizedTasks.remove(updatedSubtask);
+            }
+            updatedSubtask.setName(subtask.getName());
+            updatedSubtask.setDescription(subtask.getDescription());
+            updatedSubtask.setStatus(subtask.getStatus());
+            updatedSubtask.setStartTime(subtask.getStartTime());
+            updatedSubtask.setDuration(subtask.getDuration());
+            subtasks.put(id, updatedSubtask);
+            int epicId = subtask.getEpicId();
+            Epic epic = epics.get(epicId);
+            setEpicStatus(epic);
+            updateEpicTime(epic);
+            if (updatedSubtask.getStartTime() != null) {
+                prioritizedTasks.add(updatedSubtask);
+            }
+        } catch (ManagerValidateException e) {
+            System.out.println("Ошибка валидации: " + e.getMessage() + ". Изменения не внесены");
+        }
+
+    }
+
+    public boolean timeValidation(Task task) {
+        boolean taskHasIntersections = checkTime(task);
+        if (!taskHasIntersections) {
+            return true;
+        } else {
+            throw new ManagerValidateException(
+                    "Задача " + task.getName() + " пересекается с ранее добавленной");
+        }
     }
 
     private void setEpicStatus(Epic epic) {
