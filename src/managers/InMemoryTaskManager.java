@@ -25,13 +25,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     public boolean checkTime(Task task) {
         List<Task> tasks = List.copyOf(prioritizedTasks);
-            for (Task taskSave : tasks) {
-                if (task.getId() != taskSave.getId()) {
-                    if (task.getStartTime().isBefore(taskSave.getEndTime()) && task.getEndTime().isAfter(taskSave.getStartTime())) {
-                        return true;
-                    }
+        for (Task taskSave : tasks) {
+            if (task.getId() != taskSave.getId()) {
+                if (task.getStartTime().isBefore(taskSave.getEndTime()) && task.getEndTime().isAfter(taskSave.getStartTime())) {
+                    return true;
                 }
             }
+        }
         return false;
     }
 
