@@ -46,4 +46,6 @@ public interface TaskManager {
     void update(Subtask subtask);
 
     List<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
 }
