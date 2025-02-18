@@ -25,21 +25,28 @@ public abstract class BaseHttpHandler implements HttpHandler {
         exchange.sendResponseHeaders(statusCode, response.length);
         try (OutputStream os = exchange.getResponseBody()) {
             os.write(response);
+
         }
     }
 
     protected void sendNotFound(HttpExchange exchange) throws IOException {
-        String response = "Not Found";
-        sendText(exchange, response, 404);
+        try (exchange) {
+            String response = "Not Found";
+            sendText(exchange, response, 404);
+        }
     }
 
     protected void sendHasInteractions(HttpExchange exchange) throws IOException {
-        String response = "Task has time intersections";
-        sendText(exchange, response, 406);
+        try (exchange) {
+            String response = "Task has time intersections";
+            sendText(exchange, response, 406);
+        }
     }
 
     protected void sendInternalError(HttpExchange exchange) throws IOException {
-        String response = "Internal Server Error";
-        sendText(exchange, response, 500);
+        try (exchange) {
+            String response = "Internal Server Error";
+            sendText(exchange, response, 500);
+        }
     }
 }
